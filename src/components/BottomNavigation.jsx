@@ -5,7 +5,7 @@ function BottomNavigation() {
   const navItems = [
     { path: '/home', label: '홈', Icon: Home },
     { path: '/supplements', label: '영양제', Icon: Pill },
-    { path: '/add', label: '추가', Icon: Plus },
+    { path: '/add-supplement', label: '추가', Icon: Plus },
     { path: '/history', label: '기록', Icon: BarChart3 },
     { path: '/settings', label: '설정', Icon: Settings },
   ]
