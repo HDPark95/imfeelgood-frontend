@@ -7,13 +7,18 @@ import AddSupplement from './pages/AddSupplement'
 import History from './pages/History'
 import Settings from './pages/Settings'
 
+function InitialRedirect() {
+  const hasVisited = localStorage.getItem('hasVisited')
+  return <Navigate to={hasVisited ? '/home' : '/onboarding'} replace />
+}
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/home" replace />} />
+          <Route index element={<InitialRedirect />} />
           <Route path="home" element={<Home />} />
           <Route path="supplements" element={<SupplementList />} />
           <Route path="add-supplement" element={<AddSupplement />} />

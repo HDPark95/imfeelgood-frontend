@@ -41,11 +41,13 @@ function Onboarding() {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
+      localStorage.setItem('hasVisited', 'true')
       navigate('/home')
     }
   }
 
   const handleSkip = () => {
+    localStorage.setItem('hasVisited', 'true')
     navigate('/home')
   }
 
