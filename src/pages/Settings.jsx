@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { User, Heart, Bell, Clock, Info, FileText, Lock, MessageCircle, ChevronRight, LogOut } from 'lucide-react'
 
 function Settings() {
+  const navigate = useNavigate()
   const [notifications, setNotifications] = useState({
     push: true,
     morning: true,
@@ -11,6 +13,8 @@ function Settings() {
 
   const [morningTime, setMorningTime] = useState('08:00')
   const [eveningTime, setEveningTime] = useState('20:00')
+  const [userName, setUserName] = useState('사용자')
+  const [userEmail, setUserEmail] = useState('user@example.com')
 
   const toggleNotification = (key) => {
     setNotifications((prev) => ({
@@ -19,21 +23,54 @@ function Settings() {
     }))
   }
 
+  const handleMenuClick = (label) => {
+    switch (label) {
+      case '프로필 설정':
+        const newName = prompt('이름을 입력하세요', userName)
+        if (newName) setUserName(newName)
+        break
+      case '건강 프로필':
+        alert('건강 프로필 기능은 추후 구현 예정입니다')
+        break
+      case '앱 정보':
+        alert('아임필굿 v1.0.0\n\n영양제 섭취 관리 앱\n개발: 2025')
+        break
+      case '이용약관':
+        alert('이용약관 페이지로 이동합니다')
+        break
+      case '개인정보처리방침':
+        alert('개인정보처리방침 페이지로 이동합니다')
+        break
+      case '문의하기':
+        alert('문의하기: support@imfeelgood.com')
+        break
+      default:
+        break
+    }
+  }
+
+  const handleLogout = () => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      alert('로그아웃 되었습니다')
+      navigate('/onboarding')
+    }
+  }
+
   const menuItems = [
     {
       category: '계정',
       items: [
-        { label: '프로필 설정', Icon: User, type: 'nav' },
-        { label: '건강 프로필', Icon: Heart, type: 'nav' },
+        { label: '프로필 설정', Icon: User },
+        { label: '건강 프로필', Icon: Heart },
       ],
     },
     {
       category: '기타',
       items: [
-        { label: '앱 정보', Icon: Info, type: 'nav' },
-        { label: '이용약관', Icon: FileText, type: 'nav' },
-        { label: '개인정보처리방침', Icon: Lock, type: 'nav' },
-        { label: '문의하기', Icon: MessageCircle, type: 'nav' },
+        { label: '앱 정보', Icon: Info },
+        { label: '이용약관', Icon: FileText },
+        { label: '개인정보처리방침', Icon: Lock },
+        { label: '문의하기', Icon: MessageCircle },
       ],
     },
   ]
@@ -50,9 +87,9 @@ function Settings() {
             <User size={40} className="text-primary-600" strokeWidth={2} />
           </div>
           <h2 className="text-lg font-bold text-gray-900 mb-1">
-            사용자
+            {userName}
           </h2>
-          <p className="text-sm text-gray-500">user@example.com</p>
+          <p className="text-sm text-gray-500">{userEmail}</p>
         </div>
 
         <div>
@@ -177,6 +214,7 @@ function Settings() {
                 return (
                   <button
                     key={item.label}
+                    onClick={() => handleMenuClick(item.label)}
                     className={`w-full flex items-center justify-between p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors ${
                       index !== section.items.length - 1
                         ? 'border-b border-gray-100'
@@ -196,7 +234,10 @@ function Settings() {
         ))}
 
         <div className="pt-4">
-          <button className="w-full py-3 text-red-500 hover:text-red-600 font-semibold transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={handleLogout}
+            className="w-full py-3 text-red-500 hover:text-red-600 font-semibold transition-colors flex items-center justify-center gap-2"
+          >
             <LogOut size={20} />
             로그아웃
           </button>
